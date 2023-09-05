@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Vote;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,13 +86,13 @@ use App\Models\Role;
 
 
 // Attach each roles with user table record
-Route::get('/', function(){
-   // $user = User::first();
-    $user = User::find(3);
-    $roles = Role::all();
-    $user->roles()->attach($roles);
-    dd($user->roles);
-});
+// Route::get('/', function(){
+//    // $user = User::first();
+//     $user = User::find(3);
+//     $roles = Role::all();
+//     $user->roles()->attach($roles);
+//     dd($user->roles);
+// });
 
 // Attach each roles to user table record
 // Route::get('/', function(){
@@ -138,3 +139,42 @@ Route::get('/', function(){
 //     dd($role->users);
 // });
 
+// --------------------------------------
+
+// Attach selected roles to user -- PIVOT Table(Many to Many)
+// Route::get('/',function(){
+// $user = User::first();
+// $user->roles()->sync([1,2]);
+// dd($user->roles);
+// });
+
+// Attach selected roles to user with role provider's name -- PIVOT Table(Many to Many)
+// Route::get('/',function(){
+// $user = User::first();
+// $user->roles()->sync([
+//     1 => ['name' => 'Ganga'],
+//     2 => ['name' => 'Rohith']
+//     ]);
+// dd($user->roles);
+// });
+
+
+// To get the roles details -- PIVOT Table(Many to Many)
+//  Route::get('/',function(){
+//  $user = User::first();
+
+//  // dd($user->roles);  // To get user roles details
+//   // dump($user->roles->first());  // first record from user & role tables with pivot relation
+//  // dump($user->roles->first()->pivot); // To get all the pivot table details - Without extra data
+//   dump($user->roles->first()->pivot->name); // To get the extra details from pivot table
+//  });
+
+// ----------------------------
+// One-to-One relation -- Save record in child table
+Route::get('/', function(){
+$user = User::find(2);
+$vote = new Vote();
+$vote->voting ="Jeyam";
+$user->vote()->save($vote);
+dd($user->vote);
+});

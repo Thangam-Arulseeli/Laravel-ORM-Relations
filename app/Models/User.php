@@ -55,7 +55,12 @@ class User extends Authenticatable
     // ORM - Specifies Many-to-Many relation between Role and User
     // Populate pivot table(Many to Many) with timestamp
      public function roles(){
-         return $this->belongsToMany(Role::class)->withTimestamps();
-     } 
+        // return $this->belongsToMany(Role::class)->withTimestamps();
+        return $this->belongsToMany(Role::class)->withPivot('name')->withTimestamps(); // When we have assignee's name in pivot table
+    } 
+
+    public function vote(){
+        return $this->hasOne(Vote::class);
+    }
 
 }

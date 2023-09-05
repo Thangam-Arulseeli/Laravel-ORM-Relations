@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('role_user', function (Blueprint $table) {
+        Schema::create('votes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('role_id');
-            $table->unsignedBigInteger('user_id');
-            $table->string('name');
+            $table->string('voting');
+            $table->unsignedBigInteger('user_id')->index(); // Indexed field // user_id is foreign key (ParentTable_id)
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');   // Specify the relation - Foreign key
         });
     }
 
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('role_user');
+        Schema::dropIfExists('votes');
     }
 };
