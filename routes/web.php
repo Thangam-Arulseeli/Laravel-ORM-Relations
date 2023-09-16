@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Role;
 use App\Models\Vote;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,6 +18,8 @@ use App\Models\Vote;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+// ---- ORM RELATION ROUTES ---------------------
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -165,16 +168,43 @@ use App\Models\Vote;
 
 //  // dd($user->roles);  // To get user roles details
 //   // dump($user->roles->first());  // first record from user & role tables with pivot relation
-//  // dump($user->roles->first()->pivot); // To get all the pivot table details - Without extra data
+//   // dump($user->roles->first()->pivot); // To get all the pivot table details - Without extra data
 //   dump($user->roles->first()->pivot->name); // To get the extra details from pivot table
 //  });
 
 // ----------------------------
 // One-to-One relation -- Save record in child table
-Route::get('/', function(){
-$user = User::find(2);
-$vote = new Vote();
-$vote->voting ="Jeyam";
-$user->vote()->save($vote);
-dd($user->vote);
-});
+// Route::get('/', function(){
+// $user = User::find(3);
+// $vote = new Vote();
+// $vote->voting ="Jeyam";
+// $user->vote()->save($vote);
+// dd($user->vote);
+// });
+
+ // -----------------------------------------
+
+    // View Composer routes
+
+    Route::get('/', function(){
+        return view('home');
+    });
+    
+    Route::view('/contact','contact');
+
+    Route::get('about', function (){
+        return view ('about');
+    });
+    
+   // Route::view('employee','employee.home');
+    Route::view('/employee/show','employee.show'); 
+
+    // ---------------------------------------
+
+    // ----- SOFT DELETES ROUTES ----------
+    Route::get('post', [App\Http\Controllers\PostController::class, 'index']);
+    Route::delete('/post/sd/{post}',[App\Http\Controllers\PostController::class,'softDelete']);
+    Route::delete('/post/fd/{post}',[App\Http\Controllers\PostController::class,'forceDelete']);
+    Route::get('/post/restore/{post}',[App\Http\Controllers\PostController::class,'restore']);
+
+    Route::get('/post/show',[App\Http\Controllers\PostController::class,'show']);

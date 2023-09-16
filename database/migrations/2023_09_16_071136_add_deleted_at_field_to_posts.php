@@ -13,13 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->string('title');
-            $table->text('body');
-          //  $table->softDeletes();  // deleted_at  // To create Soft delete column
-            $table->timestamps();
+        Schema::table('posts', function (Blueprint $table) {
+            $table->softDeletes();
         });
     }
 
@@ -30,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::table('posts', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };
